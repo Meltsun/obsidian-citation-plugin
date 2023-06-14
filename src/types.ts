@@ -46,7 +46,18 @@ export class Library {
    */
   getTemplateVariablesForCitekey(citekey: string): Record<string, any> {
     const entry: Entry = this.entries[citekey];
+
+    let PDF = undefined;
+    for (const file of entry.files) {
+      if (file.endsWith('.pdf')) {
+        PDF = 'file:///' + encodeURIComponent(file.replace(/(\\+)(?=:)/, ''));
+        break;
+      }
+    }
+
     const shortcuts = {
+      PDF: PDF,
+
       citekey: citekey,
 
       abstract: entry.abstract,
